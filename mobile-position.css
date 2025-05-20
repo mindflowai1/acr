@@ -1,0 +1,6 @@
+/* Regra específica para posicionar o indicador de rolagem em dispositivos móveis */
+@media (max-width: 768px) {
+    .scroll-indicator {
+        bottom: 50px !important;
+    }
+}

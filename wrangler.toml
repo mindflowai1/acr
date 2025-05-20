@@ -1,0 +1,33 @@
+name = "alcantara-cardoso-rohlfs"
+main = "./index.html"
+compatibility_date = "2023-10-30"
+
+# Configurações para Cloudflare Pages
+[site]
+site = "alcantara-cardoso-rohlfs"
+branch = "main"
+build.command = ""
+build.upload.format = "directory"
+build.output = "./"
+
+# Configuração de assets estáticos
+[site.static]
+include = [
+  "*.html",
+  "*.css",
+  "*.js",
+  "*.png",
+  "*.jpg",
+  "*.webp",
+  "*.svg",
+  "*.ico",
+  "img/*"
+]
+
+# Ambientes
+[env.production]
+route = "alcantaracardosorohlfs.com/*"
+zone_id = "your-zone-id-here"
+
+[env.staging]
+name = "alcantara-cardoso-rohlfs-staging"

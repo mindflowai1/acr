@@ -1,0 +1,31 @@
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos de ambiente
+.env
+.env.local
+
+# Diretórios de dependências
+/node_modules/
+
+# Arquivos de log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Diretório de build e distribuição
+/dist/
+/build/
+
+# Arquivos temporários de editores
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Arquivos de cache
+.cache/
+.parcel-cache/

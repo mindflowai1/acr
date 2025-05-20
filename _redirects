@@ -1,0 +1,3 @@
+# Exemplo de redirecionamentos (você pode modificar conforme necessário)
+# /pagina-antiga    /pagina-nova    301
+# /blog/*           /novoblog/:splat    301
