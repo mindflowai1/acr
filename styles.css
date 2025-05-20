@@ -19,6 +19,7 @@ body {
     --dourado: #D4AF37;
     --madeira-escura: #3A2618;
     --texto-claro: #FFFFFF;
+    --texto-escuro: #333333;
     --overlay-escuro: rgba(10, 25, 51, 0.5);
     --navbar-height: 80px;
     --navbar-bg: #FFFFFF; /* Cor do menu: branco */
@@ -774,6 +775,7 @@ body {
 .depoimentos-section {
     background-color: #f8f8f8;
     padding: 100px 0;
+    color: #333333; /* Garantir que o texto nesta seção seja escuro */
 }
 
 .depoimentos-header {
@@ -806,7 +808,7 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
     font-size: 18px;
-    color: var(--texto-escuro);
+    color: #333333 !important;
     line-height: 1.6;
     margin-top: 20px;
 }
