@@ -286,12 +286,14 @@ body {
     position: relative;
     height: 100vh;
     width: 100%;
+    background-color: #0A1933; /* Cor de fundo que combina com o tema durante o carregamento */
     background-image: url('img/fundo2.webp');
     background-size: cover;
     background-position: center 90%;
     background-repeat: no-repeat;
     overflow: hidden;
     padding-top: var(--navbar-height); /* Compensar o menu fixo */
+    will-change: background-image; /* Otimiza a renderização */
 }
 
 .hero-overlay {
