@@ -142,6 +142,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         hamburger.classList.remove('active');
                         navMenu.classList.remove('active');
                         document.body.classList.remove('menu-open');
+                        
+                        // Remover o overlay também ao rolar
+                        if (menuOverlay) {
+                            menuOverlay.classList.remove('active');
+                        }
                     }
                 } 
                 // Rolando para cima - mostrar menu
@@ -198,6 +203,11 @@ document.addEventListener('DOMContentLoaded', function() {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
             document.body.classList.remove('menu-open');
+            
+            // Remover overlay também
+            if (menuOverlay) {
+                menuOverlay.classList.remove('active');
+            }
             
             // Scroll suave para a seção
             if (targetElement) {
