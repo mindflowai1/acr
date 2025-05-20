@@ -1,33 +1,20 @@
 name = "alcantara-cardoso-rohlfs"
-main = "./index.html"
 compatibility_date = "2023-10-30"
 
-# Configurações para Cloudflare Pages
+# Configuração para deploy como site estático
 [site]
+bucket = "./" # Diretório raiz (obrigatório)
 site = "alcantara-cardoso-rohlfs"
-branch = "main"
-build.command = ""
-build.upload.format = "directory"
-build.output = "./"
 
-# Configuração de assets estáticos
-[site.static]
-include = [
-  "*.html",
-  "*.css",
-  "*.js",
-  "*.png",
-  "*.jpg",
-  "*.webp",
-  "*.svg",
-  "*.ico",
-  "img/*"
-]
+# Configurações de páginas
+[site.upload]
+format = "directory"
 
-# Ambientes
+# Configuração de vinculação de domínio
 [env.production]
-route = "alcantaracardosorohlfs.com/*"
-zone_id = "your-zone-id-here"
+routes = [
+  { pattern = "alcantaracardosorohlfs.com", custom_domain = true }
+]
 
 [env.staging]
 name = "alcantara-cardoso-rohlfs-staging"
