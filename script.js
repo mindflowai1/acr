@@ -1,3 +1,30 @@
+// Função para mostrar mensagem de feedback
+function showMessage(message, isError = false) {
+    // Remove mensagens existentes
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+
+    // Cria a mensagem
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `form-message ${isError ? 'error' : 'success'}`;
+    messageDiv.innerHTML = `
+        <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+        <span>${message}</span>
+    `;
+    
+    // Insere a mensagem antes do formulário
+    const form = document.getElementById('contato-form');
+    form.parentNode.insertBefore(messageDiv, form);
+    
+    // Remove a mensagem após 5 segundos
+    setTimeout(() => {
+        messageDiv.style.opacity = '0';
+        setTimeout(() => messageDiv.remove(), 300);
+    }, 5000);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Referências aos elementos do DOM
     const navbar = document.querySelector('.navbar');
@@ -168,6 +195,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ===== EVENTOS =====
+    
+    // Envio do formulário
+    const contactForm = document.getElementById('contato-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            
+            try {
+                // Mostrar loading no botão
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+                
+                // Enviar dados para o Google Apps Script
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors' // Necessário para o Google Apps Script
+                });
+                
+                // Se chegou aqui, o envio foi bem-sucedido
+                showMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.', false);
+                this.reset(); // Limpa o formulário
+                
+            } catch (error) {
+                console.error('Erro ao enviar formulário:', error);
+                showMessage('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente mais tarde ou entre em contato por telefone.', true);
+            } finally {
+                // Restaurar botão
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            }
+        });
+    }
     
     // Toggle do menu mobile
     hamburger.addEventListener('click', function() {

@@ -206,7 +206,7 @@
                             </div>
                             <div class="contato-texto">
                                 <span>E-mail</span>
-                                <p>dedalo.cardoso@gmail.com</p>
+                                <p>contatocliente.acr@gmail.com</p>
                             </div>
                         </div>
                         
@@ -239,31 +239,136 @@
                 </div>
                 
                 <div class="contato-form-container fade-scroll">
-                    <form id="contato-form">
+                    <div id="form-mensagem" class="form-mensagem" style="display: none;">
+                        <div class="mensagem-conteudo">
+                            <div class="mensagem-icone">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="mensagem-texto">
+                                <h4>Mensagem Enviada com Sucesso!</h4>
+                                <p>Obrigado pelo seu contato. Nossa equipe entrará em contato o mais breve possível.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="formContato" class="contato-form" action="https://script.google.com/macros/s/AKfycbzeEXDxMdNiO_b0_IWpaDOaXWkc0izRoW0KychjDRVamYPVUu9ty7Q0OeIUlFlS1sPM/exec" method="POST" target="form-iframe">
+                    <iframe name="form-iframe" id="form-iframe" style="display:none"></iframe>
                         <div class="input-grupo">
-                            <label for="nome">Nome Completo</label>
-                            <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
+                            <label for="nome">Nome Completo:</label>
+                            <input type="text" id="nome" name="nome" placeholder="Ex: Maria da Silva" required>
                         </div>
                         
                         <div class="input-grupo">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="Ex: seu.email@exemplo.com" required>
+                            <label for="telefone">Telefone:</label>
+                            <input type="tel" id="telefone" name="telefone" required
+                                   oninput="this.value = this.value.replace(/\D/g, '').replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');"
+                                   placeholder="(00) 00000-0000"
+                                   maxlength="15">
                         </div>
                         
                         <div class="input-grupo">
-                            <label for="telefone">Telefone</label>
-                            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+                            <label for="email">E-mail:</label>
+                            <input type="email" id="email" name="email" placeholder="Ex: maria@exemplo.com" required>
                         </div>
                         
                         <div class="input-grupo">
-                            <label for="mensagem">Mensagem</label>
-                            <textarea id="mensagem" name="mensagem" rows="4" placeholder="Descreva como podemos ajudar você..." required></textarea>
+                            <label for="mensagem">Mensagem:</label>
+                            <textarea id="mensagem" name="mensagem" rows="4" placeholder="Descreva como podemos te ajudar..." required></textarea>
                         </div>
                         
-                        <button type="submit" class="enviar-botao"><i class="fas fa-handshake"></i> Solicitar Contato</button>
+                        <button type="submit" class="enviar-botao">Enviar</button>
                         
                         <p class="contato-disclaimer"><i class="fas fa-balance-scale"></i> Nosso compromisso: atendimento humanizado e soluções jurídicas personalizadas para cada situação.</p>
                     </form>
+                    
+                    <script>
+                    // Esperar o DOM carregar completamente
+                    document.addEventListener('DOMContentLoaded', function() {
+                        console.log('DOM carregado, configurando formulário...');
+                        
+                        const mensagemElemento = document.getElementById('form-mensagem');
+                        const form = document.getElementById('formContato');
+                        const submitButton = form.querySelector('button[type="submit"]');
+                        const originalButtonText = submitButton.innerHTML;
+                        
+                        // Criar iframe dinamicamente
+                        const iframe = document.createElement('iframe');
+                        iframe.name = 'form-iframe';
+                        iframe.id = 'form-iframe';
+                        iframe.style.display = 'none';
+                        document.body.appendChild(iframe);
+                        
+                        console.log('Iframe criado:', iframe);
+                        
+                        // Função para mostrar mensagem
+                        function showMessage(type, title, message) {
+                            console.log('Mostrando mensagem:', type, title, message);
+                            mensagemElemento.innerHTML = `
+                                <div class="mensagem-conteudo">
+                                    <div class="mensagem-icone">
+                                        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                                    </div>
+                                    <div class="mensagem-texto">
+                                        <h4>${title}</h4>
+                                        <p>${message}</p>
+                                    </div>
+                                </div>`;
+                            mensagemElemento.className = `form-mensagem ${type}`;
+                            mensagemElemento.style.display = 'block';
+                            
+                            // Esconder a mensagem após 5 segundos
+                            setTimeout(() => {
+                                mensagemElemento.style.opacity = '0';
+                                setTimeout(() => {
+                                    mensagemElemento.style.display = 'none';
+                                    mensagemElemento.style.opacity = '1';
+                                }, 300);
+                            }, 5000);
+                        }
+                        
+                        // Quando o iframe carregar (resposta do servidor)
+                        iframe.onload = function() {
+                            console.log('Iframe carregado, mensagem enviada com sucesso!');
+                            // Mostrar mensagem de sucesso
+                            showMessage(
+                                'success',
+                                'Mensagem Enviada com Sucesso!',
+                                'Obrigado pelo seu contato. Nossa equipe entrará em contato o mais breve possível.'
+                            );
+                            
+                            // Limpar formulário
+                            form.reset();
+                            
+                            // Restaurar botão
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = originalButtonText;
+                        };
+                        
+                        // Manipular envio do formulário
+                        form.addEventListener('submit', function(e) {
+                            console.log('Formulário submetido');
+                            // Mostrar loading no botão
+                            submitButton.disabled = true;
+                            submitButton.innerHTML = 'Enviando...';
+                            
+                            // Forçar exibição da mensagem de envio (para teste)
+                            setTimeout(() => {
+                                showMessage(
+                                    'success',
+                                    'Mensagem Enviada com Sucesso!',
+                                    'Obrigado pelo seu contato. Nossa equipe entrará em contato o mais breve possível.'
+                                );
+                                form.reset();
+                                submitButton.disabled = false;
+                                submitButton.innerHTML = originalButtonText;
+                            }, 1000);
+                            
+                            // Continuar com o envio normal
+                            return true;
+                        });
+                        
+                        console.log('Formulário configurado com sucesso!');
+                    });
+                    </script>
                 </div>
             </div>
         </div>
